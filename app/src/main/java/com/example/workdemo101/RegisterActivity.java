@@ -31,11 +31,31 @@ public class RegisterActivity extends AppCompatActivity {
         TextView password = findViewById(R.id.Password);
         Button registerbtn = findViewById(R.id.btnofResigter);
 
+
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegisterActivity.this,LogInActivity.class));
             }
         });
+    }
+    @SuppressLint("NewApi")
+    public Connection connection(){
+        Connection conn = null;
+        String ip="192.168.0.104", port="53935" , username1="Demo", password="koria", databassname="ForWorkDemo101";
+        StrictMode.ThreadPolicy tp = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(tp);
+        try
+        {
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            String connectionurl="jdbc:jtdsL:sqlserver://"+ip+":"+port+";databasename"+databassname+";User="+username1+";password="+password+";";
+            conn = DriverManager.getConnection(connectionurl);
+        }
+        catch (Exception exception)
+        {
+            Log.e("Error", exception.getMessage());
+        }
+        return conn;
     }
 }
