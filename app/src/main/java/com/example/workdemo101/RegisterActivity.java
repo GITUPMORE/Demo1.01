@@ -26,9 +26,9 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         TextView btn = findViewById(R.id.already);
 
-        TextView username = findViewById(R.id.username);
+        TextView name = findViewById(R.id.username);
         TextView email = findViewById(R.id.Email);
-        TextView password = findViewById(R.id.Password);
+        TextView Pass = findViewById(R.id.Password);
         Button registerbtn = findViewById(R.id.btnofResigter);
 
 
@@ -39,22 +39,41 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivity(new Intent(RegisterActivity.this,LogInActivity.class));
             }
         });
+
+        registerbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Connection connection= connection();
+
+                try {
+                    if (connection != null)
+                    {
+                        String sqlinsert = "Insert into UserInfo_Tab values('"+name.getText().toString()+"', '"+email.getText().toString()+"', '"+Pass.getText().toString()+"')";
+                    }
+                }
+
+                catch (Exception exception)
+                {
+                    Log.e("Error", exception.getMessage());
+                }
+            }
+        });
     }
     @SuppressLint("NewApi")
     public Connection connection(){
         Connection conn = null;
-        String ip="192.168.0.104", port="53935" , username1="Demo", password="koria", databassname="ForWorkDemo101";
+        String ip="206.45.158.148", port="53935" , username="Demo", password="koria", databasename="ForWorkDemo101";
         StrictMode.ThreadPolicy tp = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(tp);
         try
         {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            String connectionurl="jdbc:jtdsL:sqlserver://"+ip+":"+port+";databasename"+databassname+";User="+username1+";password="+password+";";
+            String connectionurl = "jdbc:jtds:sqlserver://"+ip+":"+port+";databasename="+databasename+";User="+username+";password="+password+";";
             conn = DriverManager.getConnection(connectionurl);
         }
         catch (Exception exception)
         {
-            Log.e("Error", exception.getMessage());
+            Log.e("error", exception.getMessage());
         }
         return conn;
     }
